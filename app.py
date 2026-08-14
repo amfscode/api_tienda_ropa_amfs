@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 app = Flask(__name__)
 
 prendas = [
@@ -19,6 +19,7 @@ prendas = [
 }
 ]
 
+# ________________________________
 @app.route("/")# == http://127.0.0.1:5000/
 def home():
     # return "API funcionando"
@@ -26,11 +27,12 @@ def home():
         "mensaje": "API funcionando",
         "version": "1.0"
     }
-
+# ________________________________
 @app.route("/prendas")
 def obteber_prendas():
     return prendas
 
+# ________________________________
 @app.route("/prendas/<int:id>")
 def obtener_prendas(id):
     for prenda in prendas:
@@ -39,6 +41,13 @@ def obtener_prendas(id):
     return {
         "error": "Prenda no encontrada"
     }
+# ________________________________
+@app.route("/prendas",methods = ["POST"])
+
+def crear_prenda():
+    datos = request.get_json()
+    return datos
+# ________________________________
 
 if __name__ == "__main__":
     app.run(debug=True)
