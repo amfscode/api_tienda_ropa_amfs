@@ -46,6 +46,9 @@ def obtener_prendas(id):
 
 def crear_prenda():
     datos = request.get_json()
+
+    prendas.append(datos)
+    
     return datos
 # ________________________________
 
