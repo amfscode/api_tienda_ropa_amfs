@@ -42,6 +42,7 @@ def obtener_prendas(id):
         "error": "Prenda no encontrada"
     }
 # ________________________________
+
 @app.route("/prendas",methods = ["POST"])
 
 def crear_prenda():
@@ -52,15 +53,13 @@ def crear_prenda():
         "id" : nuevo_id,
         "nombre": datos["nombre"],
         "precio": datos["precio"]
-
     }
     prendas.append(nueva_prenda)
     return nueva_prenda
 
-
-
 # ________________________________
-@app.route("/prendas/<int:id", methods = ["DELETE"])
+
+@app.route("/prendas/<int:id>", methods = ["DELETE"])
 def eliminar_prendas(id):
     for prenda in prendas:
         if prenda["id"] == id:
@@ -72,7 +71,6 @@ def eliminar_prendas(id):
         return {
             "error": "prenda no encontrada"
         }
-
 
 # ________________________________
 
