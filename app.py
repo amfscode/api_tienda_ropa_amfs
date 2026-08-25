@@ -45,6 +45,7 @@ def obtener_prendas(id):
 @app.route("/prendas",methods = ["POST"])
 
 def crear_prenda():
+
     datos = request.get_json()
     nuevo_id = len(prendas) + 1
     nueva_prenda = {
@@ -56,6 +57,21 @@ def crear_prenda():
     prendas.append(nueva_prenda)
     return nueva_prenda
 
+
+
+# ________________________________
+@app.route("/prendas/<int:id", methods = ["DELETE"])
+def eliminar_prendas(id):
+    for prenda in prendas:
+        if prenda["id"] == id:
+            prendas.remove(prenda)
+
+            return {
+                "mensaje" : "prenda eliminada"
+            }
+        return {
+            "error": "prenda no encontrada"
+        }
 
 
 # ________________________________
