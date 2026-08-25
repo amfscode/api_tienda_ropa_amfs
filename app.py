@@ -46,10 +46,18 @@ def obtener_prendas(id):
 
 def crear_prenda():
     datos = request.get_json()
+    nuevo_id = len(prendas) + 1
+    nueva_prenda = {
+        "id" : nuevo_id,
+        "nombre": datos["nombre"],
+        "precio": datos["precio"]
 
-    prendas.append(datos)
-    
-    return datos
+    }
+    prendas.append(nueva_prenda)
+    return nueva_prenda
+
+
+
 # ________________________________
 
 if __name__ == "__main__":
