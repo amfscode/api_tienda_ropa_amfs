@@ -74,5 +74,20 @@ def eliminar_prendas(id):
 
 # ________________________________
 
+@app.route("/prendas/<int:id>",  methods= ["PUT"])
+def actualizar_prenda(id):
+    datos = request.get_json()
+    for prenda in prendas:
+        if prenda["id"] == id:
+            prenda["nombre"] = datos["nombre"]
+            prenda["precio"] = datos["precio"]
+
+            return prenda
+    return {
+        "error" : "Prenda no encontrada"
+    }
+# ________________________________
+
 if __name__ == "__main__":
     app.run(debug=True)
+
