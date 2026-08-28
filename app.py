@@ -4,17 +4,18 @@ print("Base de datos creado")
 conexion.close()
 
 from flask import Flask, request
-app = Flask(__name__)
 
 from flask_sqlalchemy import SQLAlchemy
-app.config[SQLALCHEMY_DATABASE_URI] = "Sqlite:///database.db"
-db =SQLAlchemy(app)
+app = Flask(__name__)
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
+db = SQLAlchemy(app)
 
 class Prenda(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(100))
     precio = db.Column(db.Float)
-
+with app.app_context():
+    db.create_all()
 #___________________________________
 prendas = [
 {
@@ -43,9 +44,18 @@ def home():
         "version": "1.0"
     }
 # ________________________________
-@app.route("/prendas")
+@app.route("/prendas")  #[GET]
 def obteber_prendas():
-    return prendas
+    prendas = Prenda.query.all()
+    resultado = []
+
+    for p in prendas:
+        resultado.append({
+            "id": p.id,
+            "nombre": p.nombre,
+            "precio": p.precio,
+        })
+    return resultado
 
 # ________________________________
 @app.route("/prendas/<int:id>")
@@ -63,6 +73,7 @@ def obtener_prendas(id):
 def crear_prenda():
 
     datos = request.get_json()
+
     if "nombre" not in datos:
         return {
             "error" : "falta el nombre"
@@ -71,14 +82,18 @@ def crear_prenda():
         return {
             "error" : "falta el precio"
         }
-    nuevo_id = len(prendas) + 1
-    nueva_prenda = {
-        "id" : nuevo_id,
-        "nombre": datos["nombre"],
-        "precio": datos["precio"]
+    # nuevo_id = len(prendas) + 1
+    nueva_prenda = Prenda(
+        nombre = datos["nombre"],
+        precio = datos["precio"]
+    )
+    db.session.add(nueva_prenda)
+    db.session.commit()
+    return {
+        "id": nueva_prenda.id,
+        "nombre": nueva_prenda.nombre,
+        "precio": nueva_prenda.precio,
     }
-    prendas.append(nueva_prenda)
-    return nueva_prenda
 
 # ________________________________
 
