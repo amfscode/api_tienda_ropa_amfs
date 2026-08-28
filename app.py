@@ -1,3 +1,8 @@
+import sqlite3
+conexion = sqlite3.connect("database.db")
+print("Base de datos creado")
+conexion.close()
+
 from flask import Flask, request
 app = Flask(__name__)
 
@@ -90,4 +95,3 @@ def actualizar_prenda(id):
 
 if __name__ == "__main__":
     app.run(debug=True)
-
