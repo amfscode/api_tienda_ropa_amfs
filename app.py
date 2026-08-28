@@ -6,6 +6,16 @@ conexion.close()
 from flask import Flask, request
 app = Flask(__name__)
 
+from flask_sqlalchemy import SQLAlchemy
+app.config[SQLALCHEMY_DATABASE_URI] = "Sqlite:///database.db"
+db =SQLAlchemy(app)
+
+class Prenda(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.String(100))
+    precio = db.Column(db.Float)
+
+#___________________________________
 prendas = [
 {
     "id": 1,
