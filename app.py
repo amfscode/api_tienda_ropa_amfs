@@ -53,6 +53,14 @@ def obtener_prendas(id):
 def crear_prenda():
 
     datos = request.get_json()
+    if "nombre" not in datos:
+        return {
+            "error" : "falta el nombre"
+        }
+    if "precio" not in datos:
+        return {
+            "error" : "falta el precio"
+        }
     nuevo_id = len(prendas) + 1
     nueva_prenda = {
         "id" : nuevo_id,
